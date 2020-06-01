@@ -1,0 +1,81 @@
+server:
+  port: 8886
+  #Tomcat调优
+  tomcat:
+    # 最大线程数
+    max-threads: 1000
+    # 队列长度
+    accept-count: 500
+    # 最大链接数
+    max-connections: 20000
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/miaosha?serverTimezone=GMT%2b8&useUnicode=true&characterEncoding=utf-8&useSSL=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      initial-size: 20 # 初始化大小、最小、最大连接数
+      min-idle: 10
+      max-active: 200
+      max-wait: 2000 # 配置获取连接等待超时的时间
+      stat-view-servlet:
+        log                                                                                                                                                                                                                                                                              in-username: admin
+        login-password: admin
+        enabled: false #是否启用StatViewServlet（监控页面）默认值为false
+      filter:
+        stat: # 配置 StatFilter
+          log-slow-sql: true
+          slow-sql-millis: 2000
+  #设置null的属性值不显示，比如通过json返回User的时候，密码要设置为null
+  jackson:
+    default-property-inclusion: non_null
+
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    listener:
+      simple:
+        # 消费者数量
+        concurrency: 10
+        max-concurrency: 15
+        # #消费者每次从队列获取的消息数量
+        prefetch: 1
+        #消费者自动启动
+        auto-startup: true
+        #消费失败，自动重新入队
+        default-requeue-rejected: true
+      #启用发送重试
+      direct:
+        retry:
+          enabled: true
+          initial-interval: 1000
+          max-attempts: 3
+          max-interval: 10000
+          multiplier: 1.0
+# mybatis
+# 实体类包路径
+mybatis:
+  type-aliases-package: cn.peoplevip.miaosha.domain
+  configuration:
+    map-underscore-to-camel-case: true #下划线转驼峰
+    default-fetch-size: 100
+    default-statement-timeout: 3000
+  mapper-locations: classpath:cn/peoplevip/miaosha/dao/*.xml
+
+redis:
+  StorageType: byte #redis存储方式是字符还是二进制，参数可选 string、byte
+  host: 127.0.0.1
+  poolMaxTotal: 10
+  poolMaxWait: 5000
+  poolMaxldle: 10
+  port: 6379
+  timeout: 3
+
+#AES 密钥,这里要和网关的秘钥统一
+aespass: bc@9EFSceq
+

@@ -1,0 +1,47 @@
+server:
+  port: 8666
+    #Tomcat调优
+  tomcat:
+    # 最大线程数
+    max-threads: 1000
+    # 队列长度
+    accept-count: 500
+    # 最大链接数
+    max-connections: 20000
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 #注册到nacos
+    gateway:
+      discovery:
+        locator:
+          enabled: true #让gateway可以发现nacos中的微服务
+      routes:  #路由数组/路由
+        - id: miaosha_other #当前路由标识默认是uuid
+          uri: lb://service-other # 请求要被转发的地址 lb指的是从nacos中按照名称获取微服务,并遵循负载均
+          order: 1 #路由的优先级，数字越小代表路由的优先级越高
+          predicates:  #断言（条件判断，返回值是boolean，转发请求要满足的条件）
+            - Path=/other/**  #当请求路径满足Path指定的规则时,才进行路由转发
+            - Path=/kaptcha
+          filters: #过滤器（在请求传递过程中对请求进行操作）
+            - StripPrefix=1 # 转发之前去掉1层路径
+        - id: miaosha_service #当前路由标识默认是uuid
+          uri: lb://service-miaosha # 请求要被转发的地址 lb指的是从nacos中按照名称获取微服务,并遵循负载均
+          order: 1 #路由的优先级，数字越小代表路由的优先级越高
+          predicates:  #断言（条件判断，返回值是boolean，转发请求要满足的条件）
+            - Path=/seckill/**  #当请求路径满足Path指定的规则时,才进行路由转发
+            - Header=Authorization, \d+
+          filters: #过滤器（在请求传递过程中对请求进行操作）
+            - StripPrefix=1 # 转发之前去掉1层路径
+
+miaosha:
+  frontEndHost: http://localhost:5555 # 跨域请求
+  aespass: bc@9EFSceq #AES 密钥,这里要和miaosha-other的秘钥统一
+  filter:  #白名单
+    allowPaths:
+      - /service-other/kaptcha
+      - /service-other/user/login
+      - /service-other/seckill/verifyCode

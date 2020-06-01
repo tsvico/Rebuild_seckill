@@ -1,0 +1,21 @@
+dubbo:
+  scan:
+    base-packages: cn.peoplevip.miaosha.Service
+  protocol:
+    port: -1
+    name: dubbo
+  registry:
+    address: spring-cloud://localhost #挂载到 Spring Cloud 注册中心
+  cloud:
+    # 服务消费方订阅服务提供方的应用名称的列表，若需订阅多应用，使用 "," 分割。 不推荐使用默认值为 "*"，它将订阅所有应用
+    subscribed-services: service-other
+
+spring:
+  application:
+    name: service-miaosha
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
