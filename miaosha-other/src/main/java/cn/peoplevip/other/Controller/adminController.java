@@ -1,6 +1,5 @@
 package cn.peoplevip.other.Controller;
 
-
 import cn.peoplevip.common.api.AdminService;
 import cn.peoplevip.common.api.RedisService;
 import cn.peoplevip.common.domain.Goods;
