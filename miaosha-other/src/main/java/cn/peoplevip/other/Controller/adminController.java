@@ -74,7 +74,7 @@ public class adminController {
         user.setSalt(null);
         result.put("user", user);
         List<HashMap<String, Object>> menus = new ArrayList<>();
-        HashMap<String,Object> map = new HashMap<>(10);
+        HashMap<String,Object> map = new HashMap<>(14);
         //固定数据
         map.put("id",1);
         map.put("parentId",0);
