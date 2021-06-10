@@ -1,0 +1,20 @@
+{
+    "code": 200,
+    "message": "操作成功",
+    "data": {
+        "pageNum": 1,
+        "pageSize": 10,
+        "totalPage": 1,
+        "total": 2,
+        "list": [
+            {
+                "id": 1,
+                "name": "普通商品"
+            },
+            {
+                "id": 2,
+                "name": "秒杀商品"
+            }
+        ]
+    }
+}

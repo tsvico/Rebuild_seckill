@@ -63,7 +63,7 @@ public class WebConfig implements WebMvcConfigurer {
      */
     //@Override
 //    public void addCorsMappings(CorsRegistry registry) {
-//        log.info("允许跨域的域名为:"+frontHost);
+        //        log.info("允许跨域的域名为:"+frontHost);
 //        registry.addMapping("/**")
 //                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
 //                .allowedOrigins(frontHost);
